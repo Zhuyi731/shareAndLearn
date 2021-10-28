@@ -6,15 +6,10 @@ import {
 
 // Import module from within a worker.
 const { log, add, [release]: terminate, [worker]: workerRef } = await importw(
-    "./worker2.ts",
+    "https://deno.land/x/importw@1.1.0/examples/basic/exampleMod.ts",
     {
         name: "exampleWorker",
-        deno: {
-            namespace: true,
-            permissions: {
-                read: true
-            }
-        },
+        deno: false,
     },
 );
 
