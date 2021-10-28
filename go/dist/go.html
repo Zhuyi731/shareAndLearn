@@ -1,0 +1,148 @@
+<!doctype html><html><head><meta charset=UTF-8><title>go语言学习分享 - By zoeizhu</title><link rel=stylesheet href=https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css><link rel=stylesheet href=https://cdn.staticfile.org/prism/1.15.0/themes/prism.min.css><link rel=stylesheet href=https://cdn.staticfile.org/KaTeX/0.10.0-rc.1/katex.min.css><link href=./css/chunk-vendors.4e4765ff.css rel=stylesheet></head><body><div><article id=webslides><section slide class="slide bg-black-blue aligncenter" image="./imgs/bg.jpg .dark"><span class="background dark" style="background-image:url('./imgs/bg.jpg')"></span><div class=wrap wrap=true><h1 class="text-landing text-shadow">go语言学习分享</h1></div></section><section slide class=slide :class="size-40 "><div class="wrap size-40" wrap=true><ol><li>go简介</li><li>Hello World</li><li>基本类型和派生类型</li><li>数组、切片、函数、协程</li><li>OOP</li><li>go语言的潜规则</li><li>搭建一个简易http服务</li></ol></div></section><section slide class=slide :class="size-30 aligncenter "><div class="wrap size-30 aligncenter" wrap=true><img src=./img/go128.png class="size-50 alignleft"><p class="text-intro animated fadeInUp delay-500">Go 是一个开源的编程语言，它能让构造简单、可靠且高效的软件变得容易。</p><p class="animated fadeInUp">Go是从2007年末由Robert Griesemer, Rob Pike, Ken Thompson主持开发，后来还加入了Ian Lance Taylor, Russ Cox等人，并最终于2009年11月开源，在2012年早些时候发布了Go 1稳定版本。现在Go的开发已经是完全开放的，并且拥有一个活跃的社区。</p></div></section><section slide class="slide bg-black-blue aligncenter" image="./imgs/bg.jpg .dark"><span class="background dark" style="background-image:url('./imgs/bg.jpg')"></span><div class=wrap wrap=true><h1 class="text-landing text-shadow">go语言优点</h1></div></section><section slide class=slide :class="size-30 aligncenter"><div class="wrap size-30 aligncenter" wrap=true><hr><pre class="animated fadeInUp language-textile language-textile"><code class="animated fadeInUp language-textile"><span class="token phrase">1、 学习曲线容易 （语法简洁、直来直去）</span>
+
+<span class="token phrase">2、 效率  （接近C和C++的效率）</span>
+
+<span class="token phrase">3、 出身名门、血统纯正</span>
+
+<span class="token phrase">4、 强大的标准库</span>
+
+<span class="token phrase">5、 部署方便：二进制文件，Copy部署</span>
+
+<span class="token phrase">6、 语言层面支持并发 （协程）
+</span></code></pre></div></section><section slide class="slide bg-black-blue aligncenter" image="./imgs/bg.jpg .dark"><span class="background dark" style="background-image:url('./imgs/bg.jpg')"></span><div class=wrap wrap=true><h3>go语言著名项目</h3></div></section><section slide class=slide :class="size-30 aligncenter"><div class="wrap size-30 aligncenter" wrap=true><hr><pre class="animated fadeInUp delay-500 language-textile language-textile"><code class="animated fadeInUp delay-500 language-textile"><span class="token phrase">1、 docker</span>
+
+<span class="token phrase">2、 k8s</span>
+
+<span class="token phrase">3、 gin
+</span></code></pre></div></section><section slide class="slide bg-black-blue aligncenter" image="./imgs/bg.jpg .dark"><span class="background dark" style="background-image:url('./imgs/bg.jpg')"></span><div class=wrap wrap=true><h2>Hello World</h2></div></section><section slide class=slide :class="size-40 aligncenter"><div class="wrap size-40 aligncenter" wrap=true><hr><p>hello.go文件</p><pre class=language-go><code class=language-go><span class="token keyword">package</span> main  <span class="token comment">// 包名  同一个文件夹下包名相同</span>
+
+<span class="token keyword">import</span> <span class="token string">"fmt"</span> <span class="token comment">// 导入</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">// main包下的main函数是入口</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"Hello, World!"</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div></section><section slide class=slide :class="size-60 topslide-top content-center"><div class="wrap size-60 topslide-top content-center" wrap=true><h2>基本类型</h2><hr><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td>布尔型</td><td>布尔型的值只可以是常量 true 或者 false。一个简单的例子：var b bool = true。</td></tr><tr><td>数字类型</td><td>整型 int 和浮点型 float32、float64，Go 语言支持整型和浮点型数字，并且支持复数，其中位的运算采用补码。</td></tr><tr><td>字符串类型</td><td>字符串就是一串固定长度的字符连接起来的字符序列。Go 的字符串是由单个字节连接起来的。Go 语言的字符串的字节使用 UTF-8 编码标识 Unicode 文本。</td></tr><tr><td>派生类型</td><td>包括：(a) 指针类型（Pointer） (b) 数组类型 (c) 结构化类型(struct) (d) Channel 类型 (e) 函数类型 (f) 切片类型 (g) 接口类型（interface） (h) Map 类型</td></tr></tbody></table></div></section><section slide class="slide bg-black-blue aligncenter" image="./imgs/bg.jpg .dark"><span class="background dark" style="background-image:url('./imgs/bg.jpg')"></span><div class=wrap wrap=true><h2>基本类型变量声明</h2></div></section><section slide class=slide :class=size-50><div class="wrap size-50" wrap=true><hr><pre class=language-go><code class=language-go><span class="token keyword">var</span> a <span class="token builtin">int</span> <span class="token comment">// 整形还包括 uint8 uint16 uint32 uint64 int8~64 </span>
+a <span class="token operator">=</span> <span class="token number">8</span> 
+b <span class="token operator">:=</span> <span class="token number">9</span> 
+
+<span class="token keyword">var</span> a float <span class="token operator">=</span> <span class="token number">123.45</span> <span class="token comment">// 浮点类型同样包括float32 float64  complex32 complex64 </span>
+
+
+<span class="token keyword">var</span> c <span class="token builtin">string</span> 
+c <span class="token operator">=</span> <span class="token string">"123"</span>  
+d <span class="token operator">:=</span> <span class="token string">'e'</span> <span class="token comment">// rune类型  </span>
+
+<span class="token keyword">var</span> d <span class="token builtin">bool</span> <span class="token operator">=</span> <span class="token boolean">true</span> 
+e <span class="token operator">:=</span> <span class="token boolean">false</span> 
+
+</code></pre></div></section><section slide class="slide bg-black-blue aligncenter" image="./imgs/bg.jpg .dark"><span class="background dark" style="background-image:url('./imgs/bg.jpg')"></span><div class=wrap wrap=true><h2>派生类型变量声明</h2></div></section><section slide class=slide :class="size-50 lefttop" style=padding-top:0><div class="wrap size-50 lefttop" wrap=true><hr><pre class=language-go><code class=language-go><span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">}</span> <span class="token comment">// 数据大小为3的数组 </span>
+a <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">}</span> <span class="token comment">// 容量为3长度为3的切片  </span>
+b <span class="token operator">=</span> <span class="token operator">&amp;</span>a  <span class="token comment">// b为a的指针  </span>
+
+<span class="token keyword">type</span> Books <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+   title <span class="token builtin">string</span>
+   author <span class="token builtin">string</span>
+   subject <span class="token builtin">string</span>
+   book_id <span class="token builtin">int</span>
+<span class="token punctuation">}</span>  <span class="token comment">// 结构体声明</span>
+
+book1 <span class="token operator">:=</span> Books<span class="token punctuation">{</span><span class="token string">"闺蜜之主"</span><span class="token punctuation">,</span> <span class="token string">"爱潜水的乌贼"</span><span class="token punctuation">,</span> <span class="token string">"克苏鲁"</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">}</span>
+book2 <span class="token operator">:=</span> Book<span class="token punctuation">{</span> 
+   title<span class="token punctuation">:</span> <span class="token string">"闺蜜之主"</span><span class="token punctuation">,</span>
+   author<span class="token punctuation">:</span> <span class="token string">"爱潜水的乌贼"</span><span class="token punctuation">,</span>
+   subject<span class="token punctuation">:</span> <span class="token string">"克苏鲁"</span><span class="token punctuation">,</span>
+   book_id<span class="token punctuation">:</span> <span class="token number">1</span>
+<span class="token punctuation">}</span>  <span class="token comment">// 结构体赋值 </span>
+
+mapper <span class="token operator">:=</span> <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token builtin">string</span>  <span class="token comment">// map类型</span>
+mapper<span class="token punctuation">[</span><span class="token string">"123"</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"321"</span>
+fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>mapper<span class="token punctuation">[</span><span class="token string">"123"</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment">// 还有chan和interface没有说明   因为这两个使用比较复杂 会在后面说明</span>
+</code></pre></div></section><section slide class="slide bg-black-blue aligncenter" image="./imgs/bg.jpg .dark"><span class="background dark" style="background-image:url('./imgs/bg.jpg')"></span><div class=wrap wrap=true><h1 class=text-landing>数组和切片的区别</h1><p>见demo</p></div></section><section slide class=slide :class="size-50 lefttop " style=padding-top:0><div class="wrap size-50 lefttop" wrap=true><h1 class="text-landing text-shadow lightSpeedIn animated slow"><strong>go语言中的函数</strong></h1><p>go语言函数是一等公民，使用方式和js非常相似{.lightSpeedIn.animated.slow} 支持闭包 匿名函数等</p><pre class=language-go><code class=language-go><span class="token comment">// 函数声明  参数声明   返回值声明 </span>
+<span class="token keyword">func</span> <span class="token function">sum</span><span class="token punctuation">(</span>a <span class="token builtin">int</span><span class="token punctuation">,</span>b <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>c <span class="token builtin">int</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    c <span class="token operator">=</span> a <span class="token operator">+</span> b <span class="token comment">// c已经定义</span>
+    <span class="token keyword">return</span> c 
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 匿名函数 </span>
+<span class="token keyword">func</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"this is an anonymous function"</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">// 闭包  </span>
+<span class="token keyword">func</span> <span class="token function">closure</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    ct <span class="token operator">:=</span> <span class="token number">100</span> 
+    <span class="token keyword">return</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        ct <span class="token operator">=</span> ct <span class="token operator">+</span> <span class="token number">100</span> 
+        fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"current ct is %s/n"</span><span class="token punctuation">,</span> ct<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div></section><section slide class="slide bg-black aligncenter" image=https://cn.bing.com/az/hprichbg/rb/RedAntarctica_EN-AU12197122155_1920x1080.jpg><span class=background style="background-image:url('https://cn.bing.com/az/hprichbg/rb/RedAntarctica_EN-AU12197122155_1920x1080.jpg')"></span><div class=wrap wrap=true><h2>go OOP</h2></div></section><section slide class="slide bg-black-blue aligncenter" image="./imgs/bg.jpg .dark"><span class="background dark" style="background-image:url('./imgs/bg.jpg')"></span><div class=wrap wrap=true><h2>go中的对象</h2></div></section><section slide class=slide :class="size-50 aligncenter"><div class="wrap size-50 aligncenter" wrap=true><hr><p>go并不支持class关键字</p><pre class=language-go><code class=language-go><span class="token keyword">type</span> Animal <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    Kind <span class="token builtin">string</span>
+    Age <span class="token builtin">int</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">type</span> Cat <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    Animal
+<span class="token punctuation">}</span>
+
+<span class="token keyword">type</span> Dog <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    Animal
+<span class="token punctuation">}</span>
+</code></pre></div></section><section slide class="slide bg-black-blue aligncenter" image="./imgs/bg.jpg .dark"><span class="background dark" style="background-image:url('./imgs/bg.jpg')"></span><div class=wrap wrap=true><h1>go 协程（goroutine）</h1></div></section><section slide class=slide><div class=wrap wrap=true><p>指在后台中运行的轻量级执行线程，go 协程是 Go 中实现并发的关键组成部分。</p><p>Go 中提供了一个关键字 go 来让我们创建一个 Go 协程，当我们在函数或方法的调用之前添加一个关键字 go，这样我们就开启了一个 Go 协程，该函数或者方法就会在这个 Go 协程中运行。</p><pre class=language-go><code class=language-go><span class="token keyword">package</span> main 
+
+<span class="token keyword">import</span> <span class="token string">"fmt"</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"main start"</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">go</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"go routine"</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"main end"</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre></div></section><section slide class="slide bg-black-blue aligncenter" image="./imgs/bg.jpg .dark"><span class="background dark" style="background-image:url('./imgs/bg.jpg')"></span><div class=wrap wrap=true><h1>go语言中的潜规则</h1><p class=text-intro>go 语言中有内置的规则，如果不对这些进行了解可能会出现一些意向不到的错误。</p></div></section><section slide class="slide aligncenter"><div class=wrap wrap=true><pre class=language-textile><code class=language-textile><span class="token phrase">1. 同一文件夹下包名必须一致  </span>
+
+<span class="token phrase">2. 导入模块时init函数会自动运行</span>
+
+<span class="token phrase">3. 导入模块时前面加_表示只运行init函数，可以重命名</span>
+
+<span class="token phrase">4. main包的main函数是入口  </span>
+
+<span class="token phrase">5. struct和包中大写为public变量（函数）小写为private变量（函数）</span>
+
+<span class="token phrase">6. go有统一的format格式</span>
+
+<span class="token phrase">7. 只要实现了接口中声明的函数，就视为继承了该接口（隐式继承）
+</span></code></pre></div></section><section slide class="slide bg-black-blue aligncenter" image="./imgs/bg.jpg .dark"><span class="background dark" style="background-image:url('./imgs/bg.jpg')"></span><div class=wrap wrap=true><h1>使用go搭建一个简易http服务</h1></div></section><section slide class="slide bg-black-blue aligncenter" image="./imgs/bg.jpg .dark"><span class="background dark" style="background-image:url('./imgs/bg.jpg')"></span><div class=wrap wrap=true><h1>The End</h1></div></section></article></div><script>window.pluginsOptions = {}
+
+
+
+    window.webslidesOptions = {}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    let isPrintMode = false;
+    if(~location.search.indexOf('print-pdf')){
+        isPrintMode = true;
+        WebSlides.registerPlugin('scroll', function(){});
+    }
+    const wsOptions = {
+        loop: false
+    };
+    if(window.webslidesOptions){
+        for (let i in webslidesOptions){
+            if(webslidesOptions.hasOwnProperty(i)){
+                wsOptions[i] = webslidesOptions[i];
+            }
+        }
+    }
+    const ws = new WebSlides(wsOptions)
+
+    window.wsInstance = ws;
+    if(isPrintMode){
+        ws.slides.forEach(s=>s.show())
+    }
+}, false)</script><script src=./js/chunk-vendors.js></script><script src=./js/go.js></script></body></html>
